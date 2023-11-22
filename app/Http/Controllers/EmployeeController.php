@@ -11,9 +11,9 @@ class EmployeeController extends Controller
 {
     public function index(){
 
-        $employees = Employee::orderBy('id','DESC')->paginate(5     );
+        $employees = Employee::orderBy('id','DESC')->paginate(5);
        return view('employee.list',['employees' => $employees]);
-    }
+    }      
 
     public function create(){
        return view('employee.create');
@@ -37,7 +37,7 @@ class EmployeeController extends Controller
 
             //Option #2
             // $employee->save();
-            // $request->session()-flash('success', 'Employee added successfully.');
+            $request->session()->flash('success', 'Employee added successfully.');
             
             //Option #3
             $employee = Employee::create($request->post());
@@ -48,7 +48,7 @@ class EmployeeController extends Controller
                 $text = $request->image->getClientOriginalExtension();
                 $newFileName = time().'.'.$text;
                 $request->image->move(public_path().'/uploads/employees/',$newFileName); //This will save file in the folder
-
+                
                 $employee->image = $newFileName;
                 $employee->save();
 
@@ -56,7 +56,7 @@ class EmployeeController extends Controller
 
             return redirect()->route('employees.index')->with('success','Employee updated successfully.');           
         }else{
-            //return with errors
+            //return with errors  
             return redirect()->route('employees.create')->withErrors($validator)->withInput();
         }
     }
@@ -64,8 +64,7 @@ class EmployeeController extends Controller
     public function edit($id){
         $employee = Employee::findOrFail($id);       
         
-        return view('employee.edit',['employee'=>$employee]);
-
+        return view('employee.edit',['employee'=>$employee]);     
     }
 
     public function update(Employee $employee, Request $request){

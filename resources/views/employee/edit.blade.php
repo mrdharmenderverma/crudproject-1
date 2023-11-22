@@ -34,7 +34,7 @@
                         <label for="name" class="form-label">Name</label>
                         <input type="text" name="name" id="name" placeholder="Enter Name"
                             class="form-control @error('name') is-invalid @enderror"
-                            value="{{old('name',$employee->name)}}">
+                            value="{{old('name', $employee->name)}}">
                         @error('name')
                         <p class="invalid-feedback">{{ $message }}</p>
                         @enderror
